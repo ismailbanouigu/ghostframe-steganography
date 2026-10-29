@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#120c1d" />
+    <meta name="description" content="GhostFrame is an AI steganography hide-and-seek lab powered by Pollinations." />
+    <title>GhostFrame — AI Steganography Hide & Seek</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./config.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@pollinations/ui@0.1.0-alpha.20/dist/connect.js"></script>
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#lab">Skip to the lab</a>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="GhostFrame home">
+        <span class="brand-eye" aria-hidden="true"><i></i></span>
+        <span>GhostFrame</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#lab">The lab</a>
+        <a href="#specimen">Specimen 01</a>
+        <a href="#method">How it works</a>
+      </nav>
+      <div class="connect-wrap">
+        <span>Your Pollen</span>
+        <polli-connect
+          id="polliConnect"
+          budget="3"
+          expiry="7"
+          models="openai/gpt-5.4-nano,anthropic/claude-fable-5.1"
+          hide-buy-pollen
+          menu-links='[{"label":"Quest #18367","href":"https://github.com/pollinations/pollinations/issues/18367","icon":"app"}]'
+        ></polli-connect>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">AI STEGANOGRAPHY / BLIND IMAGE DUEL</p>
+          <h1 id="hero-title">Every picture<br />has a <em>second voice.</em></h1>
+          <p class="hero-lede">Give one model a secret and a blank canvas. Give another model only the finished pixels. GhostFrame measures whether meaning survives the disguise.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#lab">Hide a message <span>↘</span></a>
+            <button class="button button-ghost" id="loadDemoButton" type="button">Load the offline specimen</button>
+          </div>
+          <dl class="hero-stats">
+            <div><dt>Source handoff</dt><dd>Pixels only</dd></div>
+            <div><dt>Model lanes</dt><dd>Quest + Fable</dd></div>
+            <div><dt>Scoring</dt><dd>Transparent</dd></div>
+          </dl>
+        </div>
+        <div class="hero-art" aria-label="Abstract image hiding a signal">
+          <div class="signal-orbit orbit-one"><span>··– ··</span></div>
+          <div class="signal-orbit orbit-two"><span>101101</span></div>
+          <div class="frame-stack" aria-hidden="true">
+            <div class="frame frame-back"></div>
+            <div class="frame frame-mid"></div>
+            <div class="frame frame-front">
+              <div class="sun"></div>
+              <div class="mountain m1"></div>
+              <div class="mountain m2"></div>
+              <div class="mountain m3"></div>
+              <div class="scanline"></div>
+            </div>
+          </div>
+          <p class="art-caption">Looks ordinary.<br /><strong>Look again.</strong></p>
+        </div>
+      </section>
+
+      <section class="lab" id="lab" aria-labelledby="lab-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">LIVE EXPERIMENT</p><h2 id="lab-title">The blind relay</h2></div>
+          <p>The hider knows the secret. The seeker never sees it, never sees the SVG source, and receives only a PNG rendered in your browser.</p>
+        </div>
+
+        <div class="relay-progress" aria-label="Experiment progress">
+          <div class="progress-step active" data-progress="1"><span>01</span><strong>Hide</strong><small>Secret → artwork</small></div>
+          <i></i>
+          <div class="progress-step" data-progress="2"><span>02</span><strong>Blind</strong><small>SVG → PNG</small></div>
+          <i></i>
+          <div class="progress-step" data-progress="3"><span>03</span><strong>Seek</strong><small>Pixels → guess</small></div>
+        </div>
+
+        <div class="lab-grid">
+          <article class="control-panel" aria-labelledby="hider-title">
+            <div class="panel-head">
+              <div><span class="panel-number">01</span><h3 id="hider-title">Brief the hider</h3></div>
+              <span class="status-pill"><i></i> Local until run</span>
+            </div>
+
+            <label for="secretInput">Secret message</label>
+            <div class="secret-field">
+              <textarea id="secretInput" rows="3" maxlength="120" placeholder="THE ORCHARD OPENS AT MIDNIGHT"></textarea>
+              <span id="secretCount">0 / 120</span>
+            </div>
+
+            <div class="field-row">
+              <label>Visual world
+                <select id="themeSelect">
+                  <option value="nocturnal city map">Nocturnal city</option>
+                  <option value="botanical field guide">Botanical atlas</option>
+                  <option value="retro astronomical chart">Astronomical chart</option>
+                  <option value="minimal mountain poster">Mountain poster</option>
+                  <option value="abstract textile pattern">Textile pattern</option>
+                </select>
+              </label>
+              <label>Encoding family
+                <select id="methodSelect">
+                  <option value="choose the most elegant method yourself">Let AI choose</option>
+                  <option value="encode characters through repeated object heights">Object heights</option>
+                  <option value="encode bits through subtle colour differences">Colour channels</option>
+                  <option value="encode Morse code through spacing and grouping">Morse spacing</option>
+                  <option value="encode characters through small rotations">Rotation</option>
+                  <option value="use a visual acrostic across labeled-looking shapes without spelling the message">Visual acrostic</option>
+                </select>
+              </label>
+            </div>
+
+            <fieldset class="model-picker">
+              <legend>Model lane</legend>
+              <label class="model-option selected">
+                <input type="radio" name="model" value="openai/gpt-5.4-nano" checked />
+                <span><strong>Quest lane</strong><small>GPT-5.4 Nano · low cost · Quest Pollen</small></span>
+                <b>FAST</b>
+              </label>
+              <label class="model-option">
+                <input type="radio" name="model" value="anthropic/claude-fable-5.1" />
+                <span><strong>Fable lane</strong><small>Claude Fable 5.1 · paper-inspired · Paid Pollen</small></span>
+                <b>ORIGINAL</b>
+              </label>
+            </fieldset>
+
+            <button class="button button-primary full" id="generateButton" type="button">Generate hidden artwork <span>→</span></button>
+            <p class="privacy-note"><span>◉</span> Your secret is sent only to the selected Pollinations model after you connect and press generate.</p>
+          </article>
+
+          <article class="canvas-panel" aria-labelledby="canvas-title">
+            <div class="panel-head">
+              <div><span class="panel-number">02</span><h3 id="canvas-title">The evidence frame</h3></div>
+              <div class="canvas-actions">
+                <button id="downloadButton" type="button" disabled>Download PNG</button>
+                <button id="resetButton" type="button">Reset</button>
+              </div>
+            </div>
+            <div class="evidence-frame empty" id="evidenceFrame">
+              <div class="empty-state" id="emptyState">
+                <div class="empty-glyph"><i></i><i></i><i></i></div>
+                <strong>No evidence yet</strong>
+                <span>The hider's image will appear here.</span>
+              </div>
+              <div id="artworkMount" class="artwork-mount" hidden></div>
+              <div class="render-stamp" id="renderStamp" hidden><span>BLIND COPY</span><small>PNG / source discarded</small></div>
+              <div class="loading-veil" id="loadingVeil" hidden><span></span><p>Hider is drawing in code…</p></div>
+            </div>
+            <div class="evidence-meta">
+              <span id="evidenceMethod">METHOD / —</span>
+              <span id="evidenceModel">MODEL / —</span>
+              <span id="evidenceSize">FRAME / 1024×1024</span>
+            </div>
+            <button class="button button-accent full" id="seekButton" type="button" disabled>Release pixels to the seeker <span>◎</span></button>
+          </article>
+        </div>
+
+        <article class="verdict-panel" id="verdictPanel" hidden aria-live="polite">
+          <div class="verdict-score">
+            <div class="score-ring" id="scoreRing"><strong id="scoreValue">0</strong><span>% match</span></div>
+          </div>
+          <div class="verdict-copy">
+            <p class="eyebrow">SEEKER REPORT</p>
+            <h3 id="verdictTitle">The frame kept its secret.</h3>
+            <p id="verdictGuess"></p>
+            <div class="verdict-grid">
+              <div><span>Decoded message</span><strong id="decodedMessage">—</strong></div>
+              <div><span>Claimed method</span><strong id="decodedMethod">—</strong></div>
+              <div><span>Confidence</span><strong id="decodedConfidence">—</strong></div>
+            </div>
+            <details><summary>Read the seeker's full reasoning</summary><pre id="rawSeekerOutput"></pre></details>
+          </div>
+        </article>
+      </section>
+
+      <section class="specimen" id="specimen" aria-labelledby="specimen-title">
+        <div class="specimen-copy">
+          <p class="eyebrow">OFFLINE SPECIMEN / NO WALLET NEEDED</p>
+          <h2 id="specimen-title">The skyline is a sentence.</h2>
+          <p>Each tower height maps to a letter. The gaps mark spaces. It looks like a city; it behaves like a codebook.</p>
+          <button class="button button-light" id="decodeSpecimenButton" type="button">Reveal the decoding</button>
+          <div class="specimen-answer" id="specimenAnswer" hidden><span>HEIGHT MAP</span><strong>POLLEN BLOOMS</strong><p>16·15·12·12·5·14 / 2·12·15·15·13·19</p></div>
+        </div>
+        <div class="skyline-card" id="offlineSpecimen" aria-label="A skyline encoding the phrase Pollen Blooms">
+          <div class="skyline-grid" id="skylineGrid"></div>
+          <div class="skyline-ground"></div>
+          <span class="specimen-label">SPECIMEN 01 / HEIGHT ENCODING</span>
+        </div>
+      </section>
+
+      <section class="method" id="method" aria-labelledby="method-title">
+        <div class="section-heading compact"><div><p class="eyebrow">CHAIN OF CUSTODY</p><h2 id="method-title">No peeking between models.</h2></div></div>
+        <ol class="method-list">
+          <li><span>01</span><div><h3>Hider draws SVG</h3><p>The chosen LLM encodes the message through visual structure, not visible text.</p></div></li>
+          <li><span>02</span><div><h3>Browser burns the source</h3><p>GhostFrame rasterizes the SVG into a PNG. Code, element names, and comments do not cross the boundary.</p></div></li>
+          <li><span>03</span><div><h3>Fresh seeker sees pixels</h3><p>A new multimodal call receives only the image and a neutral forensic prompt.</p></div></li>
+          <li><span>04</span><div><h3>Score stays inspectable</h3><p>The app normalizes both messages, calculates edit-distance similarity, and shows the full model response.</p></div></li>
+        </ol>
+      </section>
+    </main>
+
+    <footer>
+      <div class="brand"><span class="brand-eye" aria-hidden="true"><i></i></span><span>GhostFrame</span></div>
+      <p>Built for Pollinations Quest #18367 · Hidden-message experiments can be ambiguous; never use this app for security-critical secrets.</p>
+      <a href="https://pollinations.ai/?ref=badge" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/pollinations/pollinations/main/packages/ui/src/brand/badge-made-with.svg" alt="Made with pollinations.ai" /></a>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
+
